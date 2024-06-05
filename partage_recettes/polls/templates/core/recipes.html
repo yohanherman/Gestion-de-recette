@@ -1,0 +1,72 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+
+{% if user.is_authenticated %}
+
+<div class="text-center ">
+  <p class="text-xl my-10"> Bonjour <span class="font-bold text-2xl">{{user.username}}</span> vous etes bien connecté(e) a votre compte</p>
+</div>
+
+{% endif %}
+
+<div class="text-center">
+  <h1 class="font-bold text-xl">Gestion de mes recettes</h1>
+</div>
+
+{% if messages %}
+    {% for message in messages %}
+        <div {% if message.tags %} class="{{message.tags}}"{% endif %}>
+            <h3>{{message}}</h3>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<div class="flex justify-end m-7 ">
+   <a class='bg-sky-400 text-white font-bold p-2 rounded' href="{% url 'createRecipe' %}">Poster une recettes</a>
+</div>
+
+
+
+{% if not recipes %}
+ <p>vous n'avez aucune , vous pouvez en ajouter dès maintenant</p>
+
+ {% else %}
+      
+        {% for recipe in recipes %}
+
+        <div class="shadow-md w-96">
+   
+               <p>{{recipe.name}}</p>
+               <p>{{recipe.duration}} Minutes</p>
+              <a class="" href="{% url 'detailedRecipe' recipe.id %}"> lire plus</a>
+       </div>
+
+      {% endfor %}
+
+
+{% endif %}
+
+<br>
+<br>
+<a href="{% url 'members' %}">les autres membres du site</a>
+
+<div>
+    <a href="{% url 'all_users_Recipes' %}">voir les recettes des autres membres</a>
+</div>
+
+
+{% if fast_recipes %}
+<div>
+    <h4>les recettes les plus rapide</h4>
+    {% for fast_recipe in fast_recipes %}
+      <a href="{% url 'detailedRecipeOtherUser' fast_recipe.id %}"><p> {{ fast_recipe.name }} par {{fast_recipe.user.username}}</p></a>
+    {% endfor %}
+</div>
+{% else %}
+    <p>pas de recette de cette durée</p>
+{% endif %}
+
+
+{% endblock %}

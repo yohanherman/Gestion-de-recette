@@ -1,0 +1,39 @@
+{%  extends 'core/base.html' %}
+
+{% block content %}
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <!-- {{ form.as_div }} -->
+
+    {% for field in form %}
+	<p>
+		{% if field.errors %}
+		<ul class="errorlist">
+			{% for error in field.errors %}
+			<li>{{ error }}</li>
+			{% endfor %}
+		</ul>
+		{% endif %}
+	 	{{ field.label_tag }} {{ field }}
+	</p>
+	{% endfor %}
+
+    <input type="submit" value="S'inscrire">
+</form>
+
+
+<br>
+<br>
+<br>
+<br>
+
+<!-- 
+<form action="">
+	{% csrf_token %}
+	{{ form.username }}
+	{{ form.email }}
+	{{ form.password }}
+</form> -->
+
+{% endblock %}

@@ -1,0 +1,29 @@
+# Ignorer les fichiers de configuration d'environnement
+.env
+.env.*
+env/
+
+
+
+# Environnement
+.env
+.env.*
+env/
+
+# Python
+*.pyc
+__pycache__/
+
+# IDEs et éditeurs
+.vscode/
+.idea/
+
+# Log files
+*.log
+
+# Système d'exploitation
+.DS_Store
+Thumbs.db
+
+
+*.sqlite3

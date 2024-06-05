@@ -1,0 +1,14 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+{% for all_member in all_members %}
+
+    {{all_member.username}}
+    {{all_member.p}}
+
+    <a href="">afficher profil</a>
+
+{% endfor %}
+
+{% endblock %}

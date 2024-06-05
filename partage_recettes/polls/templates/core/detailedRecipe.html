@@ -1,0 +1,32 @@
+{% extends 'core/base.html' %}
+
+{% block content%}
+
+
+{% if messages %}
+    {% for message in messages %}
+        <div {% if message.tags %} class='{{message.tags}}' {% endif %}><strong>{{ message }}</strong></div>
+    {% endfor %}
+{% endif %}
+
+<h1>Details sur la recette</h1>
+
+
+
+{% if user.is_authenticated %}
+
+<h3>{{ detailsrecipe.name }}</h3>
+
+<p>{{detailsrecipe.description}}</p>
+<p> <span>Durée</span> : {{detailsrecipe.duration}} Minutes</p>
+<p> Date de creation : {{detailsrecipe.created_date|date:'r' }}</p>
+<p>Mise a jour le: {{detailsrecipe.updated_date|date:'r'}}</p>
+
+<a href="{% url 'editRecipe' detailsrecipe.id %}">modifier</a>
+<a href="{% url 'deleteConfirmation' detailsrecipe.id %}">supprimer</a>
+
+{% endif %}
+
+
+
+{% endblock %}

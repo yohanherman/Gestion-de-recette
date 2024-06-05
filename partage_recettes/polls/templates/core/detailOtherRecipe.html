@@ -1,0 +1,59 @@
+{% extends 'core/base.html '%}
+{% load static %}
+
+{% block content %}
+
+
+{% if messages %}
+  {% for message in messages %}
+     <div {% if message.tags %} class="{{message.tags}}" {% endif %}><h3>{{message}}</h3></div>
+  {% endfor %}
+{% endif %}
+
+<!-- <div class="flex"> -->
+<div class="shadow-md m-5 flex   ">
+  <img class="object-cover h-49 w-96 rounded-md" src="{% static 'images/images.jpg' %}" alt="image de la recette">
+
+  <div class="p-5">
+     <div class="p-2"><i class="fa-solid fa-user"></i> <span class=""> {{detailsrecipe.user}}</span></div>
+     <div class="p-2"><i class="fa-solid fa-tag"></i> {{detailsrecipe.name}}</div>
+     <div class="p-2"><i class="fa-regular fa-calendar"></i> {{detailsrecipe.created_date}}</div>
+     <div class="p-2"> updated_date :{{detailsrecipe.updated_date}}</div>
+     <div class="p-2"> Description <br> {{detailsrecipe.description}}</div>
+  </div>
+
+<!-- </div> -->
+
+<!-- <div class="w-96 mt-5">
+  <input class="w-full" type="text" placeholder="rechercge" >
+</div> -->
+
+</div>
+
+<a href="{% url 'comment-creation' detailsrecipe.id %}">envoyer commentaire</a>
+<br>
+
+
+
+
+<p class="p-5">{{number_comments}} Commentaire associés</p>
+
+{% if get_comments %}
+
+  {% for get_comment in get_comments %}
+
+  <div class="w-1/2 m-5 bg-gray-200 rounded">
+    <div class="p-2"><i class="fa-solid fa-user"></i><span class="p-2">{{user.username}}</span><span>{{get_comment.created_date}}</span></div>
+     <p>{{ get_comment.comments }}</p>
+
+  </div>
+
+  {% endfor %}
+
+{% else %}
+
+<p> aucun commentaire disponible pour cette recette </p>
+
+{% endif %}
+
+{% endblock %}

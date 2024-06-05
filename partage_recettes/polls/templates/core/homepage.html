@@ -1,0 +1,29 @@
+{% extends 'core/base.html '%}
+
+
+{% block content %}
+
+
+{% if messages %}
+    {% for message in messages %}
+        <p {% if message.tags %} class="{{message.tags}}" {% endif %}> {{message}}</p>
+    {% endfor %}
+{% endif %}
+
+
+
+{% if  not user.is_authenticated %}
+<div>
+    <a href="{% url 'login' %}">Se connecter</a>
+    <a href="{% url 'signup' %}">S'inscrire</a>
+</div>
+
+{% else %}
+   <a href="{% url 'logout' %}"> Se déconnecter</a>
+{% endif %}
+
+
+<p>Vous etes sur le site de creation de restaurant</p>
+
+
+{% endblock %}

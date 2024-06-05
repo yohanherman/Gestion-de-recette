@@ -1,0 +1,12 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<h3> Attention cette action irreversible</h3>
+
+<p>suppression de la recette : <span>{{recipe.name }}</span></p>
+<a href="">Annuler</a>
+<a href="{% url 'delete' recipe.id %}">confirmer la suppression</a>
+
+
+{% endblock %}
