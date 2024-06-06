@@ -7,13 +7,13 @@ from django.contrib.auth.models import User
 class Edit_recipe_form(ModelForm):
     class Meta:
         model=Recipes
-        fields=['name','description','duration']
+        fields=['name','description','duration','image']
 
 
 class create_recipe_form(ModelForm):
     class Meta:
         model=Recipes
-        fields=['name','description','duration']
+        fields=['name','description','duration','image']
 
 
 

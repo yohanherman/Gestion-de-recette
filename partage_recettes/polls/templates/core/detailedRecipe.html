@@ -15,8 +15,13 @@
 
 {% if user.is_authenticated %}
 
-<h3>{{ detailsrecipe.name }}</h3>
+{% if detailsrecipe.image %}
+<img src="{{detailsrecipe.image.url}}" alt="{{detailsrecipe.name}}">
+{% else %}
+<img src="" alt="image par defaut">
+{% endif %}
 
+<h3>{{ detailsrecipe.name }}</h3>
 <p>{{detailsrecipe.description}}</p>
 <p> <span>Durée</span> : {{detailsrecipe.duration}} Minutes</p>
 <p> Date de creation : {{detailsrecipe.created_date|date:'r' }}</p>

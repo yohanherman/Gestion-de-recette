@@ -12,7 +12,8 @@
 
 <!-- <div class="flex"> -->
 <div class="shadow-md m-5 flex   ">
-  <img class="object-cover h-49 w-96 rounded-md" src="{% static 'images/images.jpg' %}" alt="image de la recette">
+  
+  <img class="object-cover block h-49 w-96 rounded-md" src="{{ detailsrecipe.image.url }}" alt="{{ detailsrecipe.name}}">
 
   <div class="p-5">
      <div class="p-2"><i class="fa-solid fa-user"></i> <span class=""> {{detailsrecipe.user}}</span></div>

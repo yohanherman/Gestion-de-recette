@@ -1,34 +1,27 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from polls.models import Recipes,comments
 from django.contrib.auth.models import User
-
 from polls.forms import Edit_recipe_form,create_recipe_form ,register_form,commentForm
 from django.contrib.auth.forms import AuthenticationForm,UserCreationForm,PasswordResetForm
 from django.contrib.auth import authenticate,login,logout,get_user_model
-
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes,force_str
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-
 from polls.token import account_activation_token
 from django.contrib import messages
 from django.core.mail import EmailMessage
-
 from django.contrib.auth.decorators import login_required
+import os
 
 def homePage(request):
     return render(request,'core/homepage.html',{'text':"je suis la page d'accueil"})
 
-# def get_all_recipes(request):
-#     recipes= Recipes.objects.all()
-#     return render(request, 'core/recipes.html', {'recipes': recipes})
-
 
 def get_all_recipes(request):
     every_user_recipes = Recipes.objects.select_related('user').all().exclude(user=request.user)
+    
     return render(request, 'core/UsersRecipes.html', {'every_user_recipes': every_user_recipes})
-
 
 
 def get_user_recipes(request):
@@ -42,11 +35,10 @@ def get_user_recipes(request):
     context={'recipes': recipes,
              'fast_recipes':fast_recipes
      }
+    
     return render(request, 'core/recipes.html', context)
 
 
-
-# retourne les recettes des autres users et les commentaires associes aux recettes
 def get_single_recipes2(request,id):
         detailsrecipe = get_object_or_404(Recipes,id=id)
         get_comments = detailsrecipe.comments.all()
@@ -55,6 +47,7 @@ def get_single_recipes2(request,id):
                  'get_comments':get_comments,
                  'number_comments': number_comments
          }
+        
         return render(request,'core/detailOtherRecipe.html', context)
 
 
@@ -62,22 +55,29 @@ def get_single_recipes2(request,id):
 @login_required
 def get_single_recipes(request,id):
         detailsrecipe = get_object_or_404(Recipes,id=id,user=request.user)
-        return render(request,'core/detailedRecipe.html',{'detailsrecipe': detailsrecipe})
 
+        return render(request,'core/detailedRecipe.html',{'detailsrecipe': detailsrecipe})
 
 
 def edit_recipe(request,id):
     detailsrecipe = get_object_or_404(Recipes,id=id)
     if request.method == 'POST':
-        form = Edit_recipe_form(request.POST ,instance=detailsrecipe)
+        form = Edit_recipe_form(request.POST ,request.FILES , instance=detailsrecipe)
         if form.is_valid():
+            if 'image' in request.FILES:
+                if detailsrecipe.image and detailsrecipe.image.name != 'assiete_vide.jpg':
+                
+                    if os.path.isfile(detailsrecipe.image.path):  # cette fonction me permet de verifier que mon image existe dans mon os
+                        os.remove(detailsrecipe.image.path)
+                detailsrecipe.image = request.FILES['image']
+
             form.save()
             messages.success(request, 'recette modfiéé avec succès')
-            # return redirect('detailedRecipe', id=id)
             return redirect('detailedRecipe', id=id)
 
     else:
         form=Edit_recipe_form(instance=detailsrecipe)
+
     return render(request, 'core/edit.html', {'form': form})
 
 
@@ -96,6 +96,7 @@ def create_recipe(request):
 
     else:
         creation_form=create_recipe_form()
+
     return render(request,'core/createRecipe.html', {'creation_form': creation_form })
 
 
@@ -110,6 +111,7 @@ def delete_recipe(request,id):
     recipe.delete()
     # print(' bien effacée')
     messages.success(request,'recette effacée avec succes')
+
     return redirect('Recipes')
 
 
@@ -129,6 +131,7 @@ def login_user(request):
             messages.info(request, 'Email/mot de passe incorrect')
 
     login_form = AuthenticationForm()
+
     return render(request, 'core/login.html',{'login_form' : login_form })
 
 
@@ -155,6 +158,7 @@ def activate(request, uidb64,token):
         return redirect('login')
     else:
         messages.error(request,'Activation link is invalid')
+
     return redirect('homePage')
 
 

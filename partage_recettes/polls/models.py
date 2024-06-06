@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django import forms
+from PIL import Image
 
 
 class Recipes (models.Model):
@@ -16,6 +17,8 @@ class Recipes (models.Model):
     created_date=models.fields.DateTimeField(auto_now_add=True)
     updated_date=models.fields.DateTimeField(auto_now=True)
     user=models.ForeignKey(User,on_delete=models.CASCADE, blank=True)
+    image=models.ImageField(default ='assiette_vide.jpg', blank=True)
+
 
 
 

@@ -3,7 +3,7 @@ from polls.models import Recipes, comments
 
 
 class pageAdmin(admin.ModelAdmin):
-    list_display=['name','description','duration', 'created_date','updated_date','user_id']
+    list_display=['name','description','duration', 'created_date','updated_date','user_id','image']
 
 
 
