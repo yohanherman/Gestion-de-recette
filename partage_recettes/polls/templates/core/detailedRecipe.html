@@ -2,36 +2,51 @@
 
 {% block content%}
 
+<div class="m-5">
+  <a href=""><i class="fa-solid fa-arrow-left text-xl"></i></a>
+</div>
 
 {% if messages %}
     {% for message in messages %}
-        <div {% if message.tags %} class='{{message.tags}}' {% endif %}><strong>{{ message }}</strong></div>
+    <div {% if message.tags == 'success' %} class="bg-green-300 text-white p-4 rounded my-4 mx-2"
+         {% elif message.tags == 'info' %} class="bg-blue-300 text-white p-4 rounded mb-4"
+         {% endif %}>
+      {{ message }}
+    </div>
     {% endfor %}
 {% endif %}
 
-<h1>Details sur la recette</h1>
-
+<h1 class="text-center m-5 text-xl font-bold mt-5">Details de la recette</h1>
 
 
 {% if user.is_authenticated %}
 
+<div class="md:flex justify-center">
+
 {% if detailsrecipe.image %}
-<img src="{{detailsrecipe.image.url}}" alt="{{detailsrecipe.name}}">
-{% else %}
-<img src="" alt="image par defaut">
-{% endif %}
 
-<h3>{{ detailsrecipe.name }}</h3>
-<p>{{detailsrecipe.description}}</p>
-<p> <span>Durée</span> : {{detailsrecipe.duration}} Minutes</p>
-<p> Date de creation : {{detailsrecipe.created_date|date:'r' }}</p>
-<p>Mise a jour le: {{detailsrecipe.updated_date|date:'r'}}</p>
-
-<a href="{% url 'editRecipe' detailsrecipe.id %}">modifier</a>
-<a href="{% url 'deleteConfirmation' detailsrecipe.id %}">supprimer</a>
+<div class="md:w-2/5 m-2">
+   <img class="rounded w-full h-full object-cover " src="{{detailsrecipe.image.url}}" alt="{{detailsrecipe.name}}">
+</div>
 
 {% endif %}
+<div class="md:w-3/5 m-2">
+   <h3 class="text-xl"><i class="fa-solid fa-tag p-2"></i> {{ detailsrecipe.name }}</h3>
+   <p class="text-justify"><i class="fa-solid fa-book p-2"></i>{{detailsrecipe.description}}</p>
+   <p><i class="fa-solid fa-clock p-2"></i>{{detailsrecipe.duration}} Minutes</p>
+   <p><i class="fa-regular fa-calendar p-2"></i>{{detailsrecipe.created_date|date:'r' }}</p>
+   <p><i class="fa-solid fa-arrows-rotate p-2"></i> {{detailsrecipe.updated_date|date:'r'}}</p>
+   
+   <div class="m-5">
+   <a class=" bg-blue-600 p-2 text-white rounded" href="{% url 'editRecipe' detailsrecipe.id %}">modifier</a>
+   <a class="bg-red-500 p-2 text-white rounded" href="{% url 'deleteConfirmation' detailsrecipe.id %}">supprimer</a>
+   </div>
+</div>
+
+</div>
 
 
+
+{% endif %}
 
 {% endblock %}

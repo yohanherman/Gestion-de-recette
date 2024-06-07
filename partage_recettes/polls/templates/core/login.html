@@ -4,7 +4,7 @@
 
 {% if messages %}
     {% for message in messages %}
-        <h3 {% if message.tags %} class="{{message.tags}}" {% endif %}>{{message}}</h3>
+        <div {% if message.tags == 'error' %} class="bg-red-500 text-white rounded mb-4 p-4" {% endif %}>{{message}}</div>
     {% endfor %}
 {% endif %}
 
@@ -15,5 +15,7 @@
     <input type="submit" value="Se connecter">
 
 </form>
+
+<p>Pas encore inscrit ? <a href="{% url 'signup' %}">cliquez-ici</a></p>
 
 {% endblock %}

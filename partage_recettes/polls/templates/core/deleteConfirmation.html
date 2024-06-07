@@ -1,12 +1,15 @@
-{% extends 'core/base.html' %}
+{% extends 'core/base.html' %} {% block content %}
 
-{% block content %}
+<div class="flex justify-center items-center mt-28 border">
+<div>
+  <h3>Attention cette action est irreversible</h3>
+  <p>suppression de la recette : <span>{{recipe.name }}</span></p>
 
-<h3> Attention cette action irreversible</h3>
-
-<p>suppression de la recette : <span>{{recipe.name }}</span></p>
-<a href="">Annuler</a>
-<a href="{% url 'delete' recipe.id %}">confirmer la suppression</a>
-
+  <div class="m-5">
+    <a class="bg-blue-600 text-white p-2 rounded" href="{% url 'detailedRecipe' recipe.id %}">Annuler</a>
+    <a class="bg-red-500 text-white p-2 rounded" href="{% url 'delete' recipe.id %}">confirmer la suppression</a>
+  </div>
+</div>
+</div>
 
 {% endblock %}

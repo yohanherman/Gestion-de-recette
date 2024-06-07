@@ -6,30 +6,25 @@
 
 {% if messages %}
   {% for message in messages %}
-     <div {% if message.tags %} class="{{message.tags}}" {% endif %}><h3>{{message}}</h3></div>
+      <div {% if message.tags == 'success' %} class = "bg-green-400 text-white p-4 rounded mb-4" {% endif %}>{{message}}</div>
   {% endfor %}
 {% endif %}
 
-<!-- <div class="flex"> -->
+
 <div class="shadow-md m-5 flex   ">
-  
   <img class="object-cover block h-49 w-96 rounded-md" src="{{ detailsrecipe.image.url }}" alt="{{ detailsrecipe.name}}">
 
   <div class="p-5">
-     <div class="p-2"><i class="fa-solid fa-user"></i> <span class=""> {{detailsrecipe.user}}</span></div>
+     <div class="p-2"><i class="fa-solid fa-user"></i> <span> {{detailsrecipe.user}}</span></div>
      <div class="p-2"><i class="fa-solid fa-tag"></i> {{detailsrecipe.name}}</div>
      <div class="p-2"><i class="fa-regular fa-calendar"></i> {{detailsrecipe.created_date}}</div>
      <div class="p-2"> updated_date :{{detailsrecipe.updated_date}}</div>
      <div class="p-2"> Description <br> {{detailsrecipe.description}}</div>
   </div>
-
-<!-- </div> -->
-
-<!-- <div class="w-96 mt-5">
-  <input class="w-full" type="text" placeholder="rechercge" >
-</div> -->
-
 </div>
+
+
+
 
 <a href="{% url 'comment-creation' detailsrecipe.id %}">envoyer commentaire</a>
 <br>

@@ -3,20 +3,22 @@
 
 {% block content %}
 
-
 {% if messages %}
     {% for message in messages %}
-        <p {% if message.tags %} class="{{message.tags}}" {% endif %}> {{message}}</p>
+    <p {% if message.tags == 'success' %} class="bg-green-400 text-white p-4 rounded mb-4"
+       {% elif message.tags == 'info' %} class="bg-blue-300 text-white p-4 rounded mb-4"
+       {% endif %}>
+      {{ message }}
+    </p>
     {% endfor %}
 {% endif %}
 
 
 
 {% if  not user.is_authenticated %}
-<div>
-    <a href="{% url 'login' %}">Se connecter</a>
+<!-- <div>
     <a href="{% url 'signup' %}">S'inscrire</a>
-</div>
+</div> -->
 
 {% else %}
    <a href="{% url 'logout' %}"> Se déconnecter</a>

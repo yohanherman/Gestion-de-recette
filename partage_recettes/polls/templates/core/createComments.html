@@ -1,11 +1,8 @@
-{% extends 'core/base.html' %}
-
-{% block content %}
+{% extends 'core/base.html' %} {% block content %}
 
 <form action="" method="POST">
-     {% csrf_token %}
-     {{ comment_form.as_div }}
-        <input type="submit" value="Envoyer">
+  {% csrf_token %} {{ comment_form.as_div }}
+  <input type="submit" value="Envoyer" />
 </form>
 
 {% endblock %}

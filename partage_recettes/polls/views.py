@@ -24,6 +24,7 @@ def get_all_recipes(request):
     return render(request, 'core/UsersRecipes.html', {'every_user_recipes': every_user_recipes})
 
 
+@login_required
 def get_user_recipes(request):
     fast_recipes = Recipes.objects.select_related('user').filter(duration = 15 ).exclude(user=request.user)
     if request.user.is_authenticated:
@@ -31,6 +32,8 @@ def get_user_recipes(request):
 
     else:
         recipes = Recipes.objects.none() 
+        
+
 
     context={'recipes': recipes,
              'fast_recipes':fast_recipes
@@ -51,7 +54,6 @@ def get_single_recipes2(request,id):
         return render(request,'core/detailOtherRecipe.html', context)
 
 
-
 @login_required
 def get_single_recipes(request,id):
         detailsrecipe = get_object_or_404(Recipes,id=id,user=request.user)
@@ -59,6 +61,7 @@ def get_single_recipes(request,id):
         return render(request,'core/detailedRecipe.html',{'detailsrecipe': detailsrecipe})
 
 
+@login_required
 def edit_recipe(request,id):
     detailsrecipe = get_object_or_404(Recipes,id=id)
     if request.method == 'POST':
@@ -81,7 +84,7 @@ def edit_recipe(request,id):
     return render(request, 'core/edit.html', {'form': form})
 
 
-
+@login_required
 def create_recipe(request):
     if request.method == 'POST':
         creation_form=create_recipe_form(request.POST)
@@ -101,11 +104,14 @@ def create_recipe(request):
 
 
 
+@login_required
 def delete_confirmation(request,id):
      recipe = get_object_or_404(Recipes, id=id)
+
      return render (request,'core/deleteConfirmation.html', {'recipe': recipe})
 
 
+@login_required
 def delete_recipe(request,id):
     recipe = get_object_or_404(Recipes, id=id)
     recipe.delete()
@@ -120,7 +126,6 @@ def login_user(request):
         # email=request.POST['email']
         username=request.POST['username']
         password=request.POST['password']
-
         user = authenticate(request , username = username, password = password)
 
         if user is not None:
@@ -128,7 +133,7 @@ def login_user(request):
             # print(user)
             return redirect('Recipes')
         else:
-            messages.info(request, 'Email/mot de passe incorrect')
+            messages.error(request, 'Email/mot de passe incorrect')
 
     login_form = AuthenticationForm()
 
@@ -137,8 +142,8 @@ def login_user(request):
 
 def logout_user(request):
     logout(request)
-    messages.success(request, "Deconnexion reussie")
-    return redirect('homePage')
+    messages.info(request, "Deconnexion reussie")
+    return redirect('homepage')
 
 
 def activate(request, uidb64,token):
@@ -159,7 +164,7 @@ def activate(request, uidb64,token):
     else:
         messages.error(request,'Activation link is invalid')
 
-    return redirect('homePage')
+    return redirect('homepage')
 
 
 
@@ -189,7 +194,7 @@ def signup_user(request):
             user.is_active = False
             user.save()
             activeEmail(request, user,form.cleaned_data.get('email'))
-            return redirect('homePage')
+            return redirect('homepage')
     else:
         form = register_form()
 
@@ -202,7 +207,7 @@ def get_all_members(request):
     return render(request, 'core/members.html',{'all_members': all_members})
 
 
-
+@login_required
 def send_comments(request,id):
     if request.method=='POST':
         comment_form = commentForm(request.POST)

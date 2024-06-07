@@ -1,11 +1,8 @@
-{% extends 'core/base.html '%}
-
-{% block content %}
+{% extends 'core/base.html '%} {% block content %}
 
 <form action="" method="POST">
-    {% csrf_token %}
-    {{creation_form.as_div}}
-    <input type="submit" value="Enregistrer">
+  {% csrf_token %} {{creation_form.as_div}}
+  <input type="submit" value="Enregistrer" />
 </form>
 
 {% endblock %}

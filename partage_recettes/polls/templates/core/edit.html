@@ -1,11 +1,8 @@
-{% extends 'core/base.html' %}
+{% extends 'core/base.html' %} {% block content %}
 
-{% block content %}
-
-<form action="" method='post' enctype="multipart/form-data">
-    {% csrf_token %}
-    {{form}}
-    <input type="submit" value="Soumettre">
+<form action="" method="post" enctype="multipart/form-data">
+  {% csrf_token %} {{form}}
+  <input type="submit" value="Soumettre" />
 </form>
 
 {% endblock %}

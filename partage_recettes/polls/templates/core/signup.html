@@ -4,8 +4,7 @@
 
 <form action="" method="POST">
     {% csrf_token %}
-    <!-- {{ form.as_div }} -->
-
+   
     {% for field in form %}
 	<p>
 		{% if field.errors %}
@@ -21,19 +20,5 @@
 
     <input type="submit" value="S'inscrire">
 </form>
-
-
-<br>
-<br>
-<br>
-<br>
-
-<!-- 
-<form action="">
-	{% csrf_token %}
-	{{ form.username }}
-	{{ form.email }}
-	{{ form.password }}
-</form> -->
 
 {% endblock %}

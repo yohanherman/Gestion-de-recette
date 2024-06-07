@@ -1,14 +1,13 @@
-{% extends 'core/base.html '%}
-
-{% block content %}
-
-{% for every_user_recipe in  every_user_recipes %}
+{% extends 'core/base.html '%} {% block content %} {% for every_user_recipe in
+every_user_recipes %}
 
 <div>
-  <p><a href="{% url 'detailedRecipeOtherUser' every_user_recipe.id %}"> {{every_user_recipe.name}}</a> créee par : {{every_user_recipe.user.username}}</p>
-
+  <p>
+    <a href="{% url 'detailedRecipeOtherUser' every_user_recipe.id %}">
+      {{every_user_recipe.name}}</a
+    >
+    créee par : {{every_user_recipe.user.username}}
+  </p>
 </div>
 
-{% endfor %}
-
-{% endblock %}
+{% endfor %} {% endblock %}

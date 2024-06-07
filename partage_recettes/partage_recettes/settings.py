@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,7 +33,6 @@ INSTALLED_APPS = [
      'theme',
      'django_browser_reload'
 
-    
 ]
 
 
@@ -128,8 +128,14 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# STATICFILES_DIRS = [
+#     BASE_DIR / 'static',
+#     BASE_DIR.parent / "node_modules",
+# ]
+
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+    os.path.join(BASE_DIR, 'node_modules'),
+    os.path.join(BASE_DIR, 'static'),
 ]
 
 
@@ -143,8 +149,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-
-
 # config for sending email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -154,3 +158,16 @@ EMAIL_HOST_PASSWORD = 'dlvkcsohboblokme'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_RESET_PASSWORD = 144000
+
+
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'debug',
+    messages.INFO: 'info',
+    messages.SUCCESS: 'success',
+    messages.WARNING: 'warning',
+    messages.ERROR: 'error',
+}
+
+#redirection for non authneticated users
+LOGIN_URL = 'login'
