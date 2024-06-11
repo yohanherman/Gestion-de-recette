@@ -28,7 +28,7 @@ urlpatterns = [
 
     path('members', views.get_all_members, name ='members'),
 
-    path('comments-creation/<int:id>',views.send_comments ,name='comment-creation'),
+    # path('comments-creation/<int:id>',views.send_comments ,name='comment-creation'),
 
     # tailwind reloading
     path("__reload__/", include("django_browser_reload.urls")),

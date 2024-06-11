@@ -1,31 +1,64 @@
 {% extends 'core/base.html '%}
 
+{% load static %}
+
 
 {% block content %}
 
+
 {% if messages %}
     {% for message in messages %}
-    <p {% if message.tags == 'success' %} class="bg-green-400 text-white p-4 rounded mb-4"
-       {% elif message.tags == 'info' %} class="bg-blue-300 text-white p-4 rounded mb-4"
-       {% endif %}>
+    <div {% if message.tags == 'success' %} class="bg-green-300 text-white p-4 rounded my-4 mx-2"
+         {% elif message.tags == 'info' %} class="bg-blue-300 text-white p-4 rounded my-4 mx-2"
+         {% endif %}>
       {{ message }}
-    </p>
+    </div>
     {% endfor %}
 {% endif %}
 
 
 
-{% if  not user.is_authenticated %}
-<!-- <div>
+
+
+<!-- {% if  not user.is_authenticated %}
+<div>
     <a href="{% url 'signup' %}">S'inscrire</a>
-</div> -->
+</div>
 
 {% else %}
    <a href="{% url 'logout' %}"> Se déconnecter</a>
-{% endif %}
+{% endif %} -->
 
 
-<p>Vous etes sur le site de creation de restaurant</p>
+<!-- <p>Vous etes sur le site de creation de restaurant</p> -->
+<div class="h-[calc(100vh-70px)] relative">
+<img class="h-full object-cover w-full opacity-60" src="{% static 'images/main-image.jpg' %}" alt="main image">
+</div>
+
+
+
+<main>
+<div class="bg-gray-200">
+   <!-- <h3 class="p-5"> Voir recettes partagées par d'autres utilisateurs</h3> -->
+
+   <!-- {% for every_user_recipe in every_user_recipes %}
+   
+    {{every_user_recipe.name}}
+
+   {% endfor %} -->
+
+   {{text}}
+
+ 
+</div>
+</main>
+
+
+
+
+
+
+
 
 
 {% endblock %}

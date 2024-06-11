@@ -1,10 +1,10 @@
 {%  extends 'core/base.html' %}
 
 {% block content %}
-
+<!-- 
 <form action="" method="POST">
     {% csrf_token %}
-   
+
     {% for field in form %}
 	<p>
 		{% if field.errors %}
@@ -19,6 +19,32 @@
 	{% endfor %}
 
     <input type="submit" value="S'inscrire">
-</form>
+</form> -->
+
+<div class="text-center my-10">
+	<h3 class="font-bold text-2xl"> Formulaire d'inscription</h3>
+</div>
+
+
+<div class="flex justify-center items-center">
+<div class="my-10 w-96">
+	<form action="" method="post" class="shadow-md rounded-md p-5  ">
+		{% csrf_token %}
+		{% for field in form %}
+			<div class="mb-4">
+				<label class="block text-gray-700 text-sm font-bold mb-2" for="{{ field.id_for_label }}">
+					{{ field.label }}
+				</label>
+				{{ field }}
+  
+				{% for error in field.errors %}
+					<p class="text-red-500 text-xs italic">{{ error }}</p>
+				{% endfor %}
+			</div>
+		{% endfor %}
+		<input type="submit" value="S'inscrire" class="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded text-white" />
+	</form>
+	</div>
+</div>
 
 {% endblock %}

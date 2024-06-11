@@ -1,13 +1,70 @@
-{% extends 'core/base.html '%} {% block content %} {% for every_user_recipe in
-every_user_recipes %}
+{% extends 'core/base.html '%} 
 
-<div>
-  <p>
-    <a href="{% url 'detailedRecipeOtherUser' every_user_recipe.id %}">
-      {{every_user_recipe.name}}</a
-    >
-    créee par : {{every_user_recipe.user.username}}
-  </p>
+{% block content %} 
+
+
+<!-- <a href="" class="mx-5"><i class="fa-solid fa-arrow-left text-2xl mt-7"></i></a> -->
+
+<div class="flex flex-wrap justify-center items-center my-10 mx-10">
+
+{% for every_user_recipe in paginator.object_list %}
+<div class="border w-80 rounded shadow-md m-2">
+  <a href="{% url 'detailedRecipeOtherUser' every_user_recipe.id %}"><img  class="w-full rounded" src="{{every_user_recipe.image.url}}" alt="image"></a>
+  <div class="flex justify-center p-2">
+    <p class="mr-5"><i class="fa-solid fa-user p-2 "></i>{{every_user_recipe.user.username}}</p>
+    <p><i class="fa-solid fa-tag p-2"></i>{{every_user_recipe.name}}</p> 
+  </div>
 </div>
 
-{% endfor %} {% endblock %}
+{% endfor %} 
+
+</div>
+
+<div class="flex justify-center mt-10">
+  <p>{{paginator.number}} sur {{paginator.paginator.num_pages}}</p>
+</div>
+
+<!-- Pagination -->
+<div class="flex justify-center mt-4 mb-20">
+ <nav class="flex items-center gap-x-1">
+  {% if paginator.has_previous %}
+    <button type="button" class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10">
+      <svg class="flex-shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m15 18-6-6 6-6"></path>
+      </svg>
+      <a href="{% url 'all_users_Recipes' %}?page={{ paginator.previous_page_number}}">précédent</a>
+      </button>
+    {% endif %}
+
+
+  {% for num_page in paginator.paginator.page_range %}
+  {% if paginator.number == num_page %}
+  <div class="flex items-center gap-x-1">
+    <!-- <button type="button" class="min-h-[38px] min-w-[38px] flex justify-center items-center bg-gray-200 text-gray-800 py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-300 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-600 dark:text-white dark:focus:bg-neutral-500" aria-current="page">{{num_page}}</button> -->
+      <a class="min-h-[38px] min-w-[38px] flex justify-center items-center bg-blue-500 text-gray-800 py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-300 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-600 dark:text-white dark:focus:bg-neutral-500" aria-current="page" href="{% url 'all_users_Recipes' %}?page={{ num_page}}">{{num_page}}</a>
+  </div>
+  {% else %}
+  <div class="flex items-center gap-x-1">
+      <a class="min-h-[38px] min-w-[38px] flex justify-center items-center bg-gray-200 text-gray-800 py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-300 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-600 dark:text-white dark:focus:bg-neutral-500" href="{% url 'all_users_Recipes' %}?page={{ num_page}}">{{num_page}}</a>
+  </div>
+  {% endif %}
+  {% endfor %}
+
+
+
+   {% if paginator.has_next %}
+    <button type="button" class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-1.5 text-sm rounded-lg text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10">
+      <a href="{% url 'all_users_Recipes' %}?page={{ paginator.next_page_number}}">Prochain</a>
+      <svg class="flex-shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="96" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m9 18 6-6-6-6"></path>
+      </svg>
+      </button>
+    {% endif %}
+ </nav>
+</div>
+<!-- End Pagination -->
+
+
+
+
+{% endblock %}

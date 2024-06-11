@@ -38,8 +38,8 @@
    <p><i class="fa-solid fa-arrows-rotate p-2"></i> {{detailsrecipe.updated_date|date:'r'}}</p>
    
    <div class="m-5">
-   <a class=" bg-blue-600 p-2 text-white rounded" href="{% url 'editRecipe' detailsrecipe.id %}">modifier</a>
-   <a class="bg-red-500 p-2 text-white rounded" href="{% url 'deleteConfirmation' detailsrecipe.id %}">supprimer</a>
+   <a class=" bg-blue-500 hover:bg-blue-700 p-2 text-white rounded" href="{% url 'editRecipe' detailsrecipe.id %}">modifier</a>
+   <a class="bg-red-500 hover:bg-red-700 p-2 text-white rounded" href="{% url 'deleteConfirmation' detailsrecipe.id %}">supprimer</a>
    </div>
 </div>
 

@@ -8,14 +8,35 @@
     {% endfor %}
 {% endif %}
 
-<form action="" method="POST">
-    {% csrf_token %}
-    {{login_form.as_div}}
 
-    <input type="submit" value="Se connecter">
+<div class="flex justify-center items-center my-10">
+    <h3 class="font-bold text-2xl"> Connexion</h3>
+</div>
+
+<div class="m-2 ">
+<form action="" method="post" class="shadow-md rounded-md p-5 ">
+    {% csrf_token %}
+    {% for field in login_form %}
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ field.id_for_label }}">
+                {{ field.label }}
+            </label>
+
+            {{field}}
+
+
+            {% for error in field.errors %}
+                <p class="text-red-500 text-xs italic">{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endfor %}
+    <input type="submit" value="Se connecter" class="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded text-white" />
+
+<p>Pas encore inscrit ? <a href="{% url 'signup' %}">Cliquez-moi</a></p>
 
 </form>
+</div>
 
-<p>Pas encore inscrit ? <a href="{% url 'signup' %}">cliquez-ici</a></p>
+
 
 {% endblock %}

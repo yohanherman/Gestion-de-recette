@@ -4,17 +4,26 @@
 {% block content %}
 
 
+
 {% if messages %}
-  {% for message in messages %}
-      <div {% if message.tags == 'success' %} class = "bg-green-400 text-white p-4 rounded mb-4" {% endif %}>{{message}}</div>
-  {% endfor %}
+    {% for message in messages %}
+    <div {% if message.tags == 'success' %} class="bg-green-300 text-white p-4 rounded my-4 mx-2"
+         {% elif message.tags == 'info' %} class="bg-blue-300 text-white p-4 rounded mb-4"
+         {% endif %}>
+      {{ message }}
+    </div>
+    {% endfor %}
 {% endif %}
 
 
-<div class="shadow-md m-5 flex   ">
-  <img class="object-cover block h-49 w-96 rounded-md" src="{{ detailsrecipe.image.url }}" alt="{{ detailsrecipe.name}}">
+<a href="{% url 'all_users_Recipes' %}" class="mx-5"><i class="fa-solid fa-arrow-left text-2xl mt-7"></i></a>
 
-  <div class="p-5">
+<div class="shadow-md m-5 md:flex">
+  <div class="md:w-1/2">
+  <img class="object-cover block rounded-md" src="{{ detailsrecipe.image.url }}" alt="{{ detailsrecipe.name}}">
+  </div>
+
+  <div class="p-5 md:w-1/2">
      <div class="p-2"><i class="fa-solid fa-user"></i> <span> {{detailsrecipe.user}}</span></div>
      <div class="p-2"><i class="fa-solid fa-tag"></i> {{detailsrecipe.name}}</div>
      <div class="p-2"><i class="fa-regular fa-calendar"></i> {{detailsrecipe.created_date}}</div>
@@ -23,22 +32,17 @@
   </div>
 </div>
 
-
-
-
-<a href="{% url 'comment-creation' detailsrecipe.id %}">envoyer commentaire</a>
 <br>
 
 
 
-
-<p class="p-5">{{number_comments}} Commentaire associés</p>
+<p class="p-5">{{number_comments}} Commentaires associés</p>
 
 {% if get_comments %}
 
   {% for get_comment in get_comments %}
 
-  <div class="w-1/2 m-5 bg-gray-200 rounded">
+  <div class=" md:w-1/2 m-5 bg-gray-200 rounded md">
     <div class="p-2"><i class="fa-solid fa-user"></i><span class="p-2">{{user.username}}</span><span>{{get_comment.created_date}}</span></div>
      <p>{{ get_comment.comments }}</p>
 
@@ -51,5 +55,14 @@
 <p> aucun commentaire disponible pour cette recette </p>
 
 {% endif %}
+
+
+<form action="" method="POST">
+  {% csrf_token %} 
+  
+  {{ comment_form.as_div }}
+
+  <input type="submit" value="Envoyer" />
+</form>
 
 {% endblock %}

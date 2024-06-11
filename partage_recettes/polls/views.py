@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from polls.models import Recipes,comments
 from django.contrib.auth.models import User
 from polls.forms import Edit_recipe_form,create_recipe_form ,register_form,commentForm
-from django.contrib.auth.forms import AuthenticationForm,UserCreationForm,PasswordResetForm
+from django.contrib.auth.forms import AuthenticationForm,PasswordResetForm
 from django.contrib.auth import authenticate,login,logout,get_user_model
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes,force_str
@@ -12,28 +12,35 @@ from polls.token import account_activation_token
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 import os
 
 def homePage(request):
     return render(request,'core/homepage.html',{'text':"je suis la page d'accueil"})
 
 
+
 def get_all_recipes(request):
     every_user_recipes = Recipes.objects.select_related('user').all().exclude(user=request.user)
-    
-    return render(request, 'core/UsersRecipes.html', {'every_user_recipes': every_user_recipes})
+
+    paginator = Paginator(every_user_recipes , 2)
+    page_number = request.GET.get('page')
+    paginator = paginator.get_page(page_number)
+
+    # return render(request, 'core/UsersRecipes.html', {'every_user_recipes': every_user_recipes})
+    return render(request, 'core/UsersRecipes.html', {'paginator': paginator})
+
 
 
 @login_required
 def get_user_recipes(request):
-    fast_recipes = Recipes.objects.select_related('user').filter(duration = 15 ).exclude(user=request.user)
+    fast_recipes = Recipes.objects.select_related('user').filter( duration = 15 ).exclude(user=request.user)
     if request.user.is_authenticated:
         recipes = Recipes.objects.filter(user=request.user)
 
     else:
         recipes = Recipes.objects.none() 
         
-
 
     context={'recipes': recipes,
              'fast_recipes':fast_recipes
@@ -46,12 +53,29 @@ def get_single_recipes2(request,id):
         detailsrecipe = get_object_or_404(Recipes,id=id)
         get_comments = detailsrecipe.comments.all()
         number_comments = detailsrecipe.comments.count()
+
+        if request.method=='POST':
+          comment_form = commentForm(request.POST)
+          if comment_form.is_valid():
+             comments = comment_form.save(commit=False)
+             comments.recipe = Recipes.objects.get(id=id)
+            #  comments.detailsrecipe = Recipes.objects.get(id=id)
+             comments.user=request.user
+             comments.save()
+             messages.success(request, 'votre commentaire a bien été enregistré')
+
+
+        comment_form = commentForm()
+
         context={'detailsrecipe': detailsrecipe,
                  'get_comments':get_comments,
-                 'number_comments': number_comments
+                 'number_comments': number_comments,
+                 'comment_form':comment_form
+                 
          }
         
         return render(request,'core/detailOtherRecipe.html', context)
+
 
 
 @login_required
@@ -87,7 +111,7 @@ def edit_recipe(request,id):
 @login_required
 def create_recipe(request):
     if request.method == 'POST':
-        creation_form=create_recipe_form(request.POST)
+        creation_form=create_recipe_form(request.POST,request.FILES)
         if creation_form.is_valid():
             recipe = creation_form.save(commit=False)
             recipe.user=request.user
@@ -140,10 +164,13 @@ def login_user(request):
     return render(request, 'core/login.html',{'login_form' : login_form })
 
 
+
 def logout_user(request):
     logout(request)
     messages.info(request, "Deconnexion reussie")
     return redirect('homepage')
+
+
 
 
 def activate(request, uidb64,token):
@@ -207,49 +234,28 @@ def get_all_members(request):
     return render(request, 'core/members.html',{'all_members': all_members})
 
 
-@login_required
-def send_comments(request,id):
-    if request.method=='POST':
-        comment_form = commentForm(request.POST)
-        if comment_form.is_valid():
-            comments= comment_form.save(commit=False)
-            comments.recipe = Recipes.objects.get(id=id)
-            comments.user=request.user
-            comments.save()
-            messages.success(request, 'votre commentaire a bien été enregistré')
-            return redirect('detailedRecipeOtherUser' , id=id )
+
+# @login_required
+# def send_comments(request,id):
+#     if request.method=='POST':
+#         comment_form = commentForm(request.POST)
+#         if comment_form.is_valid():
+#             comments= comment_form.save(commit=False)
+#             comments.recipe = Recipes.objects.get(id=id)
+#             comments.user=request.user
+#             comments.save()
+#             messages.success(request, 'votre commentaire a bien été enregistré')
+#             return redirect('detailedRecipeOtherUser' , id=id )
         
-    else:
-        comment_form = commentForm()
+#     else:
+#         comment_form = commentForm()
         
-    return render(request,'core/createComments.html',{'comment_form' : comment_form })
+#     return render(request,'core/createComments.html',{'comment_form' : comment_form })
+  
 
 
 
 
-# def display_comments(request,id,recipe):
-#     detailsrecipe = get_object_or_404(Recipes, id=id)
-#     comments = recipe.comments.all()
-
-#     context={'the_comments': the_comments,
-#              'detailsrecipe':detailsrecipe
-        
-#     }
-             
-#     return render(request,'core/detailOtherRecipe.html',context)
-
-
-
-# def display_comments(request,recipe_id):
-#     recipe = get_object_or_404(Recipes, id=recipe_id)
-#     comments = recipe.comments.all()
-
-#     context={'comments': comments,
-#              'recipe':recipe
-        
-#     }
-             
-#     return render(request,'core/detailOtherRecipe.html',context)
 
 
              

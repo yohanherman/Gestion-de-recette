@@ -11,11 +11,17 @@
   <h1 class="font-bold text-xl">Gestion de mes recettes</h1>
 </div>
 
-{% if messages %} {% for message in messages %}
-<div {% if message.tags %} class="{{message.tags}}" {% endif %}>
-  <h3>{{message}}</h3>
-</div>
-{% endfor %} {% endif %}
+{% if messages %}
+    {% for message in messages %}
+    <div {% if message.tags == 'success' %} class="bg-green-300 text-white p-4 rounded my-4 mx-2"
+         {% elif message.tags == 'info' %} class="bg-blue-300 text-white p-4 rounded mb-4"
+         {% endif %}>
+      {{ message }}
+    </div>
+    {% endfor %}
+{% endif %}
+
+
 
 <div class="flex justify-end m-7">
   <a
@@ -32,23 +38,14 @@
 
 <div class="flex flex-wrap justify-center">
   {% for recipe in recipes %}
-  <div class="shadow-md w-96 my-5 mx-5">
-    <img
-      class="rounded-lg p-2 object-cover"
-      src="{{recipe.image.url }}"
-      alt="{{recipe.name}}"
-    />
+  <div class="shadow-md  w-96 my-5 mx-5">
+    <img class="rounded-lg p-2 object-cover" src="{{recipe.image.url }}" alt="{{recipe.name}}"/>
     <div class="flex justify-around">
       <p><i class="fa-solid fa-tags p-2 text-lg"></i>{{recipe.name}}</p>
       <p><i class="fa-solid fa-clock p-2"></i>{{recipe.duration}} Minutes</p>
     </div>
     <div class="flex justify-center">
-      <a
-        class="bg-sky-400 mb-3 rounded-md p-2 text-white"
-        href="{% url 'detailedRecipe' recipe.id %}"
-      >
-        Lire plus <i class="fa-solid fa-arrow-right"></i
-      ></a>
+      <a class="bg-sky-400 mb-3 rounded-md p-2 text-white"href="{% url 'detailedRecipe' recipe.id %}"> Lire plus <i class="fa-solid fa-arrow-right"></i></a>
     </div>
   </div>
   {% endfor %}
@@ -58,23 +55,22 @@
 
 <br />
 <br />
-<a href="{% url 'members' %}">les autres membres du site</a>
+<!-- <a href="{% url 'members' %}">les autres membres du site</a> -->
 
 <div>
-  <a href="{% url 'all_users_Recipes' %}"
-    >voir les recettes des autres membres</a
-  >
+  <a href="{% url 'all_users_Recipes' %}">voir les recettes des autres membres</a>
 </div>
 
-{% if fast_recipes %}
+<!-- {% if fast_recipes %}
 <div>
   <h4>les recettes les plus rapide</h4>
   {% for fast_recipe in fast_recipes %}
-  <a href="{% url 'detailedRecipeOtherUser' fast_recipe.id %}"
-    ><p>{{ fast_recipe.name }} par {{fast_recipe.user.username}}</p></a
-  >
+  <a href="{% url 'detailedRecipeOtherUser' fast_recipe.id %}"><p>{{ fast_recipe.name }} par {{fast_recipe.user.username}}</p></a>
   {% endfor %}
 </div>
 {% else %}
 <p>pas de recette de cette durée</p>
-{% endif %} {% endblock %}
+{% endif %}  -->
+
+
+{% endblock %}

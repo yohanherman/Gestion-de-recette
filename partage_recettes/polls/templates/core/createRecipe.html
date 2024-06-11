@@ -1,8 +1,31 @@
 {% extends 'core/base.html '%} {% block content %}
 
-<form action="" method="POST">
-  {% csrf_token %} {{creation_form.as_div}}
-  <input type="submit" value="Enregistrer" />
-</form>
+<div class="text-center my-16 text-2xl font-bold">
+    <h3> Formulaire de creation</h3>
+</div>
+
+<div class="flex justify-center items-center mx-5 my-10">
+  <div class="flex justify-center">
+  <form action="" method="post" enctype="multipart/form-data" class="shadow-md rounded-md p-5">
+      {% csrf_token %}
+      {% for field in creation_form %}
+          <div class="mb-4">
+              <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ field.id_for_label }}">
+                  {{ field.label }}
+              </label>
+              {{ field }}
+
+              {% for error in field.errors %}
+                  <p class="text-red-500 text-xs italic">{{ error }}</p>
+              {% endfor %}
+          </div>
+      {% endfor %}
+      <input type="submit" value="Soumettre" class="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded text-white" />
+  </form>
+  </div>
+</div>
+
+
+
 
 {% endblock %}
