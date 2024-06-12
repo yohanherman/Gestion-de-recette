@@ -11,8 +11,12 @@
 <div class="border w-80 rounded shadow-md m-2">
   <a href="{% url 'detailedRecipeOtherUser' every_user_recipe.id %}"><img  class="w-full rounded" src="{{every_user_recipe.image.url}}" alt="image"></a>
   <div class="flex justify-center p-2">
+
+    <!-- <div>{{ recipe.likes.count }} likes</div> -->
+
     <p class="mr-5"><i class="fa-solid fa-user p-2 "></i>{{every_user_recipe.user.username}}</p>
     <p><i class="fa-solid fa-tag p-2"></i>{{every_user_recipe.name}}</p> 
+
   </div>
 </div>
 

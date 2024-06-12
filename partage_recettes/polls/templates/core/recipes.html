@@ -1,4 +1,6 @@
-{% extends 'core/base.html' %} {% block content %} 
+{% extends 'core/base.html' %} 
+
+{% block content %} 
 
 
 {% if user.is_authenticated %}
@@ -15,11 +17,22 @@
     {% for message in messages %}
     <div {% if message.tags == 'success' %} class="bg-green-300 text-white p-4 rounded my-4 mx-2"
          {% elif message.tags == 'info' %} class="bg-blue-300 text-white p-4 rounded mb-4"
-         {% endif %}>
+         {% endif %}  id="flashmessage">
       {{ message }}
     </div>
     {% endfor %}
 {% endif %}
+
+
+
+
+<form action="{% url 'searchRecipe' %}" method="GET">
+  {% csrf_token %}
+  <input type="text" name="q">
+  <input type="submit" value="rechercher">
+</form>
+
+
 
 
 
@@ -30,6 +43,13 @@
     >Poster une recettes</a
   >
 </div>
+
+
+
+
+
+
+
 
 {% if not recipes %}
 <p>vous n'avez aucune , vous pouvez en ajouter dès maintenant</p>

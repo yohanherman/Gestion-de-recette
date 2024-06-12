@@ -24,7 +24,7 @@ class Recipes (models.Model):
 
 
 class comments(models.Model):
-    comments=models.TextField()
+    comments=models.CharField(max_length=250)
     recipe= models.ForeignKey(Recipes, on_delete=models.CASCADE, related_name='comments')
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     created_date= models.DateTimeField(auto_now_add= True)

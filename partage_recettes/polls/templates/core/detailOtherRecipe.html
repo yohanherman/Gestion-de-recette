@@ -9,7 +9,7 @@
     {% for message in messages %}
     <div {% if message.tags == 'success' %} class="bg-green-300 text-white p-4 rounded my-4 mx-2"
          {% elif message.tags == 'info' %} class="bg-blue-300 text-white p-4 rounded mb-4"
-         {% endif %}>
+         {% endif %}  id="flashmessage">
       {{ message }}
     </div>
     {% endfor %}
@@ -20,19 +20,35 @@
 
 <div class="shadow-md m-5 md:flex">
   <div class="md:w-1/2">
-  <img class="object-cover block rounded-md" src="{{ detailsrecipe.image.url }}" alt="{{ detailsrecipe.name}}">
+  <img class="object-cover block p-3" src="{{ detailsrecipe.image.url }}" alt="{{ detailsrecipe.name}}">
   </div>
 
   <div class="p-5 md:w-1/2">
      <div class="p-2"><i class="fa-solid fa-user"></i> <span> {{detailsrecipe.user}}</span></div>
      <div class="p-2"><i class="fa-solid fa-tag"></i> {{detailsrecipe.name}}</div>
      <div class="p-2"><i class="fa-regular fa-calendar"></i> {{detailsrecipe.created_date}}</div>
-     <div class="p-2"> updated_date :{{detailsrecipe.updated_date}}</div>
+     <div class="p-2"> Mis à jour le -  {{detailsrecipe.updated_date}}</div>
      <div class="p-2"> Description <br> {{detailsrecipe.description}}</div>
   </div>
 </div>
 
 <br>
+
+
+<div class="m-2 md:w-1/2  ">
+<form action="" method="post" enctype="multipart/form-data" class="shadow rounded-md p-2 flex">
+  {% csrf_token %}
+  {% for field in comment_form %}
+          {{ field }}
+          <!-- {% for error in field.errors %}
+              <p class="text-red-500 text-xs italic">{{ error }}</p>
+          {% endfor %} -->
+  {% endfor %}
+  <div class="p-2">
+     <input type="submit" value="publier" class="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded text-white " />
+  </div>
+</form>
+</div>
 
 
 
@@ -45,7 +61,6 @@
   <div class=" md:w-1/2 m-5 bg-gray-200 rounded md">
     <div class="p-2"><i class="fa-solid fa-user"></i><span class="p-2">{{user.username}}</span><span>{{get_comment.created_date}}</span></div>
      <p>{{ get_comment.comments }}</p>
-
   </div>
 
   {% endfor %}
@@ -57,12 +72,28 @@
 {% endif %}
 
 
-<form action="" method="POST">
+<!-- <form action="" method="POST">
   {% csrf_token %} 
   
   {{ comment_form.as_div }}
 
   <input type="submit" value="Envoyer" />
-</form>
+</form> -->
+
+  <!-- <form action="" method="post" enctype="multipart/form-data" class="shadow-md rounded-md p-5 flex">
+      {% csrf_token %}
+      {% for field in comment_form %}
+              {{ field }}
+               {% for error in field.errors %}
+                  <p class="text-red-500 text-xs italic">{{ error }}</p>
+              {% endfor %} -->
+      <!-- {% endfor %}
+      <div class="p-2">
+         <input type="submit" value="publier" class="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded text-white " />
+      </div>
+  </form> --> 
+
+
+
 
 {% endblock %}

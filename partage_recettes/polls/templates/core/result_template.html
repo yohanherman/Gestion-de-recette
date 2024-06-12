@@ -1,0 +1,39 @@
+
+{% extends 'core/base.html' %} 
+
+{% block content %} 
+
+<div class="flex justify-center items-center m-5">
+  <h2 class="font-bold text-xl">Resultat de recherche</h2>
+</div>
+
+
+{% if recipes %}
+
+<div class="text-center mb-5">
+{{count}} result(s) trouvé(s)
+</div>
+
+
+<div class="flex justify-center" >
+<div>
+{% for recipe in recipes %}
+<div class="border w-80 rounded shadow-md m-2">
+  <a href="{% url 'detailedRecipeOtherUser' recipe.id %}"><img  class="w-full rounded" src="{{recipe.image.url}}" alt="image"></a>
+  <div class="flex justify-center p-2">
+
+    <p class="mr-5"><i class="fa-solid fa-user p-2 "></i>{{recipe.user.username}}</p>
+    <p><i class="fa-solid fa-tag p-2"></i>{{recipe.name}}</p> 
+
+  </div>
+</div>
+{% endfor %} 
+</div>
+</div>
+
+{% else %}
+<p class="text-center"> aucun resultat trouvé</p>
+{% endif %}
+
+{% endblock %}
+

@@ -2,11 +2,11 @@
 
 {% block content %}
 
-{% if messages %}
+<!-- {% if messages %}
     {% for message in messages %}
-        <div {% if message.tags == 'error' %} class="bg-red-500 text-white rounded mb-4 p-4" {% endif %}>{{message}}</div>
+        <div {% if message.tags == 'error' %} class="bg-red-500 text-white rounded mx-4 my-4 p-4" {% endif %}>{{message}}</div>
     {% endfor %}
-{% endif %}
+{% endif %} -->
 
 
 <div class="flex justify-center items-center my-10">
@@ -25,11 +25,18 @@
             {{field}}
 
 
-            {% for error in field.errors %}
+            <!-- {% for error in field.errors %}
                 <p class="text-red-500 text-xs italic">{{ error }}</p>
-            {% endfor %}
+            {% endfor %} -->
         </div>
     {% endfor %}
+
+    {% if messages %}
+    {% for message in messages %}
+        <div {% if message.tags == 'error' %} class=" text-red-600 rounded mb-5" {% endif %}>{{message}}</div>
+    {% endfor %}
+{% endif %}
+
     <input type="submit" value="Se connecter" class="bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded text-white" />
 
 <p>Pas encore inscrit ? <a href="{% url 'signup' %}">Cliquez-moi</a></p>

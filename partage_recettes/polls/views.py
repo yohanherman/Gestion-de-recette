@@ -13,6 +13,7 @@ from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.views.generic.list import ListView
 import os
 
 def homePage(request):
@@ -21,7 +22,7 @@ def homePage(request):
 
 
 def get_all_recipes(request):
-    every_user_recipes = Recipes.objects.select_related('user').all().exclude(user=request.user)
+    every_user_recipes = Recipes.objects.select_related('user').all().exclude(user=request.user).order_by('-id')
 
     paginator = Paginator(every_user_recipes , 2)
     page_number = request.GET.get('page')
@@ -51,7 +52,7 @@ def get_user_recipes(request):
 
 def get_single_recipes2(request,id):
         detailsrecipe = get_object_or_404(Recipes,id=id)
-        get_comments = detailsrecipe.comments.all()
+        get_comments = detailsrecipe.comments.all().order_by('-id')
         number_comments = detailsrecipe.comments.count()
 
         if request.method=='POST':
@@ -172,7 +173,6 @@ def logout_user(request):
 
 
 
-
 def activate(request, uidb64,token):
     User=get_user_model()
     try:
@@ -232,6 +232,19 @@ def signup_user(request):
 def get_all_members(request):
     all_members = User.objects.all()
     return render(request, 'core/members.html',{'all_members': all_members})
+
+
+
+
+def search_result(request):
+    recipes= Recipes.objects.all().exclude(user=request.user).order_by('-id')
+    if request.GET.get('q', None ):
+        q = request.GET['q']
+        recipes = recipes.filter(name__icontains = q )
+
+    return render(request, 'core/result_template.html', {'recipes': recipes ,'count':recipes.count()})
+
+    
 
 
 

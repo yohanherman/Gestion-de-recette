@@ -27,8 +27,8 @@ urlpatterns = [
     path('activate/<uidb64>/<token>', views.activate ,name='activate'),
 
     path('members', views.get_all_members, name ='members'),
-
-    # path('comments-creation/<int:id>',views.send_comments ,name='comment-creation'),
+    
+    path('search-recipe/', views.search_result , name ='searchRecipe'),
 
     # tailwind reloading
     path("__reload__/", include("django_browser_reload.urls")),

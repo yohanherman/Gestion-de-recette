@@ -13,6 +13,5 @@ class CommentAdmin(admin.ModelAdmin):
 
 
 
-
 admin.site.register(Recipes,pageAdmin)
 

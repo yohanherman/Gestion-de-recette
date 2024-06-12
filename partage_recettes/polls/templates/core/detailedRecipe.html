@@ -3,14 +3,14 @@
 {% block content%}
 
 <div class="m-5">
-  <a href=""><i class="fa-solid fa-arrow-left text-xl"></i></a>
+  <a href="{% url 'Recipes' %}"><i class="fa-solid fa-arrow-left text-xl"></i></a>
 </div>
 
 {% if messages %}
     {% for message in messages %}
     <div {% if message.tags == 'success' %} class="bg-green-300 text-white p-4 rounded my-4 mx-2"
          {% elif message.tags == 'info' %} class="bg-blue-300 text-white p-4 rounded mb-4"
-         {% endif %}>
+         {% endif %}  id="flashmessage">
       {{ message }}
     </div>
     {% endfor %}
