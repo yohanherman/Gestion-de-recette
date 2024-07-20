@@ -13,7 +13,6 @@ from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.views.generic.list import ListView
 import os
 
 def homePage(request):
@@ -76,7 +75,6 @@ def get_single_recipes2(request,id):
          }
         
         return render(request,'core/detailOtherRecipe.html', context)
-
 
 
 @login_required
@@ -235,7 +233,6 @@ def get_all_members(request):
 
 
 
-
 def search_result(request):
     recipes= Recipes.objects.all().exclude(user=request.user).order_by('-id')
     if request.GET.get('q', None ):
@@ -246,24 +243,6 @@ def search_result(request):
 
     
 
-
-
-# @login_required
-# def send_comments(request,id):
-#     if request.method=='POST':
-#         comment_form = commentForm(request.POST)
-#         if comment_form.is_valid():
-#             comments= comment_form.save(commit=False)
-#             comments.recipe = Recipes.objects.get(id=id)
-#             comments.user=request.user
-#             comments.save()
-#             messages.success(request, 'votre commentaire a bien été enregistré')
-#             return redirect('detailedRecipeOtherUser' , id=id )
-        
-#     else:
-#         comment_form = commentForm()
-        
-#     return render(request,'core/createComments.html',{'comment_form' : comment_form })
   
 
 
